@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "933786712703",
+    "firebase_url": "https://chalkitup-5b411.firebaseio.com",
+    "project_id": "chalkitup-5b411",
+    "storage_bucket": "chalkitup-5b411.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933786712703:android:4d0d5361a535ad6c",
+        "android_client_info": {
+          "package_name": "com.wyp.chalkitup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933786712703-un6fi45igu7skg86i59mifcv4sinf6ja.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuFk6Sc6NdvI2iyPsnw3DwYnr-PvC0xzM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933786712703-un6fi45igu7skg86i59mifcv4sinf6ja.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
