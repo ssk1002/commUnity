@@ -43,6 +43,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.wyp.chalkitup.fragments.ChatFragment;
 import com.wyp.chalkitup.fragments.HomeFragment;
+import com.wyp.chalkitup.fragments.ProfileFragment;
 import com.wyp.chalkitup.models.User;
 
 import java.util.ArrayList;
@@ -105,8 +106,6 @@ public class MainActivity extends AppCompatActivity
         progressDialog.setMessage("Loading");
         progressDialog.setIndeterminate(true);
         progressDialog.show();
-        setUpFragments();
-        switchFragment(0, "Home");
         signIn();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -127,8 +126,8 @@ public class MainActivity extends AppCompatActivity
         fragments.add(new ChatFragment());
         //My Events Fragment
         fragments.add(new HomeFragment());
-        //My Profile Fragment
-        fragments.add(new HomeFragment());
+        //My ProfileFragment Fragment
+        fragments.add(new ProfileFragment(mUser));
     }
 
     private void switchFragment(int pos, String tag) {
@@ -299,6 +298,8 @@ public class MainActivity extends AppCompatActivity
         textView.setText(account.name);
         TextView textView1 = (TextView) findViewById(R.id.textView);
         textView1.setText(account.email);
+        setUpFragments();
+        switchFragment(0, "Home");
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
