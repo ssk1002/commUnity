@@ -13,14 +13,9 @@
         android:title="Create Project"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/bottombaritem_chat"
-        android:icon="@drawable/ic_chat_white_48dp"
-        android:title="Chat"
-        app:showAsAction="ifRoom"/>
-    <item
         android:id="@+id/bottombaritem_events"
         android:icon="@drawable/ic_list_white_48dp"
-        android:title="My Events"
+        android:title="My Projects"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/bottombaritem_profile"

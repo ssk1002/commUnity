@@ -42,6 +42,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.wyp.chalkitup.fragments.ChatFragment;
+import com.wyp.chalkitup.fragments.CreateTaskFragment;
 import com.wyp.chalkitup.fragments.HomeFragment;
 import com.wyp.chalkitup.fragments.ProfileFragment;
 import com.wyp.chalkitup.models.User;
@@ -121,16 +122,15 @@ public class MainActivity extends AppCompatActivity
         //Home Fragment
         fragments.add(new HomeFragment());
         //Create Project Fragment
-        fragments.add(new HomeFragment());
+        fragments.add(new CreateTaskFragment(mUser));
         //Chat Fragment
         fragments.add(new ChatFragment());
-        //My Events Fragment
-        fragments.add(new HomeFragment());
         //My ProfileFragment Fragment
         fragments.add(new ProfileFragment(mUser));
     }
 
     private void switchFragment(int pos, String tag) {
+        getSupportActionBar().setTitle(tag);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frame_fragmentholder, fragments.get(pos), tag)
@@ -186,9 +186,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
         if (id == R.id.action_signout) {
             signOut();
         }
@@ -308,23 +308,15 @@ public class MainActivity extends AppCompatActivity
                         switch (item.getItemId()) {
                             case R.id.bottombaritem_home:
                                 switchFragment(0, "Home");
-                                // TODO
                                 return true;
                             case R.id.bottombaritem_create:
                                 switchFragment(1, "Create Project");
-                                // TODO
-                                return true;
-                            case R.id.bottombaritem_chat:
-                                switchFragment(2, "Chat");
-                                // TODO
                                 return true;
                             case R.id.bottombaritem_events:
-                                switchFragment(3, "My Events");
-                                // TODO
+                                switchFragment(2, "My Projects");
                                 return true;
                             case R.id.bottombaritem_profile:
-                                switchFragment(4, "My Profile");
-                                // TODO
+                                switchFragment(3, "My Profile");
                                 return true;
                         }
                         return false;
