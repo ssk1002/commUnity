@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +41,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.wyp.chalkitup.fragments.HomeFragment;
 import com.wyp.chalkitup.models.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,6 +60,8 @@ public class MainActivity extends AppCompatActivity
     private FirebaseDatabase database;
     private ProgressDialog progressDialog;
     private User mUser;
+    private BottomNavigationView bottomNavigationView;
+    private List<Fragment> fragments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,16 +104,9 @@ public class MainActivity extends AppCompatActivity
         progressDialog.setMessage("Loading");
         progressDialog.setIndeterminate(true);
         progressDialog.show();
+        setUpFragments();
+        switchFragment(0, "Home");
         signIn();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -113,6 +115,26 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void setUpFragments() {
+        //Home Fragment
+        fragments.add(new HomeFragment());
+        //Create Project Fragment
+        fragments.add(new HomeFragment());
+        //Chat Fragment
+        fragments.add(new HomeFragment());
+        //My Events Fragment
+        fragments.add(new HomeFragment());
+        //My Profile Fragment
+        fragments.add(new HomeFragment());
+    }
+
+    private void switchFragment(int pos, String tag) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_fragmentholder, fragments.get(pos), tag)
+                .commit();
     }
 
     private void createOrUpdateUserInDatabase(User user) {
@@ -276,6 +298,36 @@ public class MainActivity extends AppCompatActivity
         textView.setText(account.name);
         TextView textView1 = (TextView) findViewById(R.id.textView);
         textView1.setText(account.email);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.bottombaritem_home:
+                                switchFragment(0, "Home");
+                                // TODO
+                                return true;
+                            case R.id.bottombaritem_create:
+                                switchFragment(1, "Create Project");
+                                // TODO
+                                return true;
+                            case R.id.bottombaritem_chat:
+                                switchFragment(2, "Chat");
+                                // TODO
+                                return true;
+                            case R.id.bottombaritem_events:
+                                switchFragment(3, "My Events");
+                                // TODO
+                                return true;
+                            case R.id.bottombaritem_profile:
+                                switchFragment(4, "My Profile");
+                                // TODO
+                                return true;
+                        }
+                        return false;
+                    }
+                });
     }
 
     @Override
