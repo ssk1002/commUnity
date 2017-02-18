@@ -41,6 +41,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.wyp.chalkitup.fragments.ChatFragment;
 import com.wyp.chalkitup.fragments.HomeFragment;
 import com.wyp.chalkitup.models.User;
 
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity
         //Create Project Fragment
         fragments.add(new HomeFragment());
         //Chat Fragment
-        fragments.add(new HomeFragment());
+        fragments.add(new ChatFragment());
         //My Events Fragment
         fragments.add(new HomeFragment());
         //My Profile Fragment
