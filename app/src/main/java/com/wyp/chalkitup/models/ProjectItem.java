@@ -5,15 +5,17 @@ package com.wyp.chalkitup.models;
  */
 
 public class ProjectItem {
-    String name;
-    String description;
-    String cost;
-    String userId;
-    String username;
-    String photoUrl;
+    public String name;
+    public String description;
+    public String cost;
+    public String userId;
+    public String username;
+    public String photoUrl;
     public double latitude;
     public double longitude;
     public String id;
+
+    ProjectItem(){}
 
     public ProjectItem(String name, String userId, String username, String photoUrl, String description, String cost) {
         this.name = name;
