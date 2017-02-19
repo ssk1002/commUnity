@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPreferences = getSharedPreferences(Globals.packagePath, Context.MODE_PRIVATE);
         boolean loggedIn = sharedPreferences.getBoolean(Globals.loggedIn, false);
+        getSupportActionBar().hide();
         if(loggedIn) {
             startActivity(new Intent(this, MainActivity.class));
             finish();

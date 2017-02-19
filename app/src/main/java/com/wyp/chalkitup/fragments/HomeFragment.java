@@ -33,6 +33,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.wyp.chalkitup.Globals;
 import com.wyp.chalkitup.R;
 import com.wyp.chalkitup.models.ProjectItem;
 
@@ -136,15 +137,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
                 CameraPosition cameraPosition = new CameraPosition.Builder()
                         .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
-                        .zoom(17)                   // Sets the zoom
+                        .zoom(16)                   // Sets the zoom
 //                        .bearing(90)                // Sets the orientation of the camera to east
 //                        .tilt(40)                   // Sets the tilt of the camera to 30 degrees
                         .build();                   // Creates a CameraPosition from the builder
-                myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                myMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 MarkerOptions options = new MarkerOptions()
                         .position(latLng)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.uiconbm))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.umapicon))
                         .title("Current Location");
                 myMap.addMarker(options);
             }

@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.wyp.chalkitup.Globals;
 import com.wyp.chalkitup.R;
 import com.wyp.chalkitup.models.ProjectItem;
 import com.wyp.chalkitup.models.User;
@@ -32,7 +33,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseDatabase database;
     User account;
 
-
+    public ProfileFragment() {}
     public ProfileFragment(User mUser) {
         // Required empty public constructor
         database = FirebaseDatabase.getInstance();

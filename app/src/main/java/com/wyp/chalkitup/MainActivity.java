@@ -45,9 +45,6 @@ import com.wyp.chalkitup.fragments.MyProjectsFragment;
 import com.wyp.chalkitup.fragments.ProfileFragment;
 import com.wyp.chalkitup.models.User;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
@@ -63,7 +60,12 @@ public class MainActivity extends AppCompatActivity
     private ProgressDialog progressDialog;
     private User mUser;
     private BottomNavigationView bottomNavigationView;
-    private List<Fragment> fragments = new ArrayList<>();
+    int position = 0;
+    private HomeFragment homeFragment;
+    private CreateTaskFragment createTaskFragment;
+    private MyProjectsFragment myProjectsFragment;
+    private ProfileFragment profileFragment;
+    private boolean returning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,32 +115,45 @@ public class MainActivity extends AppCompatActivity
         } else {
             signIn();
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.setDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+    }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (returning) {
+            updateCurrentFragment();
+        }
     }
 
     private void setUpFragments() {
-        //Home Fragment
-        fragments.add(new HomeFragment());
-        //Create Project Fragment
-        fragments.add(new CreateTaskFragment(mUser));
-        //Chat Fragment
-        fragments.add(new MyProjectsFragment());
-        //My ProfileFragment Fragment
-        fragments.add(new ProfileFragment(mUser));
+        if (homeFragment == null) {
+            homeFragment = new HomeFragment();
+        }
+        if (createTaskFragment == null) {
+            createTaskFragment = new CreateTaskFragment(mUser);
+        }
+        if (myProjectsFragment == null) {
+            myProjectsFragment = new MyProjectsFragment(this, mUser);
+        }
+        if (profileFragment == null) {
+            profileFragment = new ProfileFragment(mUser);
+        }
+        returning = true;
     }
 
-    private void switchFragment(int pos, String tag) {
+    private void switchFragment(Fragment fragment, String tag) {
         getSupportActionBar().setTitle(tag);
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.frame_fragmentholder, fragments.get(pos), tag)
+                .replace(R.id.frame_fragmentholder, fragment, tag)
                 .commit();
     }
 
@@ -214,7 +229,6 @@ public class MainActivity extends AppCompatActivity
                     });
         } else {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
         }
     }
 
@@ -304,7 +318,7 @@ public class MainActivity extends AppCompatActivity
         TextView textView1 = (TextView) findViewById(R.id.textView);
         textView1.setText(account.email);
         setUpFragments();
-        switchFragment(0, "Home");
+        updateCurrentFragment();
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -312,21 +326,42 @@ public class MainActivity extends AppCompatActivity
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.bottombaritem_home:
-                                switchFragment(0, "Home");
+                                switchFragment(homeFragment, "Home");
+                                position = 0;
                                 return true;
                             case R.id.bottombaritem_create:
-                                switchFragment(1, "Create Project");
+                                switchFragment(createTaskFragment, "Create Project");
+                                position = 1;
                                 return true;
                             case R.id.bottombaritem_events:
-                                switchFragment(2, "My Projects");
+                                switchFragment(myProjectsFragment, "My Projects");
+                                position = 2;
                                 return true;
                             case R.id.bottombaritem_profile:
-                                switchFragment(3, "My Profile");
+                                switchFragment(profileFragment, "My Profile");
+                                position = 3;
                                 return true;
                         }
                         return false;
                     }
                 });
+    }
+
+    private void updateCurrentFragment() {
+        switch (position) {
+            case 0:
+                switchFragment(homeFragment, "Home");
+                break;
+            case 1:
+                switchFragment(createTaskFragment, "Create Project");
+                break;
+            case 2:
+                switchFragment(myProjectsFragment, "My Projects");
+                break;
+            case 3:
+                switchFragment(profileFragment, "My Profile");
+                break;
+        }
     }
 
     @Override
