@@ -25,17 +25,66 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.wyp.chalkitup.R;
+import com.wyp.chalkitup.models.ProjectItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment implements OnMapReadyCallback {
+    private FirebaseDatabase database;
     private MapView mapView;
     private GoogleMap myMap;
+    private List<ProjectItem> projects = new ArrayList<>();
 
     public HomeFragment() {
         // Required empty public constructor
+        database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference(Globals.PROJECTS);
+        reference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                ProjectItem projectItem = dataSnapshot.getValue(ProjectItem.class);
+                projects.add(projectItem);
+                if (myMap != null) {
+                    LatLng latLng = new LatLng(projectItem.latitude, projectItem.longitude);
+
+                    MarkerOptions options = new MarkerOptions()
+                            .position(latLng)
+                            .title(projectItem.name);
+                    myMap.addMarker(options);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public static final int MY_PERMISSIONS_USE_LOCATION = 1;
@@ -49,7 +98,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
-
 
         return view;
     }
@@ -74,11 +122,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         myMap = googleMap;
 
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
             if (location != null) {
@@ -92,6 +140,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         .build();                   // Creates a CameraPosition from the builder
                 myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
+        }
+        for (ProjectItem projectItem : projects) {
+            LatLng latLng = new LatLng(projectItem.latitude, projectItem.longitude);
+
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(projectItem.name);
+            myMap.addMarker(options);
         }
     }
 }
