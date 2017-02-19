@@ -23,6 +23,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -139,6 +141,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 //                        .tilt(40)                   // Sets the tilt of the camera to 30 degrees
                         .build();                   // Creates a CameraPosition from the builder
                 myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                MarkerOptions options = new MarkerOptions()
+                        .position(latLng)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.uiconbm))
+                        .title("Current Location");
+                myMap.addMarker(options);
             }
         }
         for (ProjectItem projectItem : projects) {
