@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity
                                 position = 1;
                                 return true;
                             case R.id.bottombaritem_events:
-                                switchFragment(myProjectsFragment, "My Projects");
+                                switchFragment(myProjectsFragment, "Projects");
                                 position = 2;
                                 return true;
                             case R.id.bottombaritem_profile:
@@ -356,7 +356,7 @@ public class MainActivity extends AppCompatActivity
                 switchFragment(createTaskFragment, "Create Project");
                 break;
             case 2:
-                switchFragment(myProjectsFragment, "My Projects");
+                switchFragment(myProjectsFragment, "Projects");
                 break;
             case 3:
                 switchFragment(profileFragment, "My Profile");
